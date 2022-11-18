@@ -4,10 +4,14 @@ require 'uri'
 require 'net/http'
 require 'openssl'
 
-file = File.read('./airports.json')
-Data_airports = JSON.parse(file)
 
 def getRequest(originCode, destinationCode, originDate, destinationDate)
+  
+  flights = File.read('./flight_lgw_dub.json')
+  @data_flight = JSON.parse(flights)
+  return @data_flight
+
+
   url = URI("https://ryanair.p.rapidapi.com/flights?origin_code=#{originCode}&destination_code=#{destinationCode}&origin_departure_date=#{originDate}&destination_departure_date=#{destinationDate}")
 
   http = Net::HTTP.new(url.host, url.port)
@@ -19,17 +23,22 @@ def getRequest(originCode, destinationCode, originDate, destinationDate)
   request["X-RapidAPI-Host"] = 'ryanair.p.rapidapi.com'
 
   response = http.request(request)
-  puts response.read_body
+  jsonResponse = JSON.parse(response.body)
+  return jsonResponse
 end
 
 get '/' do
+  file = File.read('./airports.json')
+  @data_airports = JSON.parse(file)
+
   erb :index
 end
 
-get '/buscar/:originCode/:destinationCode/:originDate/:destinationDate' do
-  originCode = params[:originCode]
-  destinationCode = params[:destinationCode]
-  originDate = params[:originDate]
-  destinationDate = params[:destinationDate]
-  getRequest(originCode,destinationCode,originDate,destinationDate)
+get '/buscar' do
+  originCode = params[:origem]
+  destinationCode = params[:destino]
+  originDate = params[:origem_data]
+  destinationDate = params[:destino_data]
+  @responseFlight = getRequest(originCode,destinationCode,originDate,destinationDate)
+  erb :buscar
 end

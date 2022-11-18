@@ -3,8 +3,20 @@
     <meta charset='UTF-8' />
     <title>Compare UK Flights</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
-    
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            'inter': ['inter']
+          },
+          extend: {
+            
+          }
+        }
+      }
+    </script>
   </head>
 
   <body class="flex justify-center bg-purple-900">
@@ -13,39 +25,39 @@
         Compare vôos pelo Reino Unido
       </h1>
 
-      <form action=".">
+      <form action="/buscar">
         <div class="flex items-center justify-center mt-6 gap-1">
           <div class="form-control w-full max-w-xs">
-            <select class="select select-bordered w-full max-w-xs">
+            <select name="origem" class="select select-bordered w-full max-w-xs">
               <option disabled selected>Origem</option>
-              <%Data_airports.each do |airport|%>
-                <option value="<%= airport["name"]%>"><%= airport["name"] %></option>
+              <%@data_airports.each do |airport|%>
+                <option value="<%= airport["code"]%>"><%= airport["name"] %></option>
               <% end %>
             </select>
           </div>
           
           <div class="form-control w-full max-w-xs">
-            <select class="select select-bordered w-full max-w-xs">
+            <select name="destino" class="select select-bordered w-full max-w-xs">
               <option disabled selected>Destino</option>
-              <%Data_airports.each do |airport|%>
-                <option value="<%= airport["name"]%>"><%= airport["name"] %></option>
+              <%@data_airports.each do |airport|%>
+                <option value="<%= airport["code"]%>"><%= airport["name"] %></option>
               <% end %>
             </select>
           </div>
 
           <div class="flex items-center justify-center">
-              <input type="date"
+              <input name="origem_data" type="date"
               class="max-w-xs w-full bg-[#2A303C] rounded-md h-12"
                 placeholder="Select a date" />
           </div>
 
           <div class="flex items-center justify-center">
-            <input type="date"
+            <input name="destino_data" type="date"
             class="max-w-xs w-full bg-[#2A303C] rounded-md h-12"
             placeholder="Select a date" />
           </div>
 
-          <button class="btn">Procurar</button>
+          <button type="submit" class="btn btn-primary">Procurar</button>
         </div>
       </form>
     </div>

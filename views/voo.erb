@@ -1,0 +1,48 @@
+<div class="w-auto mt-12 rounded-lg">
+  <div class="flex justify-between">
+    <div class="flex bg-[#D9D9D9] flex-col items-center justify-center rounded-l-md"> <!--DIV DO ICON-->
+      <div>
+        <img src="images/plane.svg"/>
+      </div>
+      <p class="font-['inter'] font-bold text-black text-base"><%=value['origin_code']%> -> <%= value['destination_code']%></p>
+    </div>
+
+    <div class="bg-white flex items-center gap-32 px-4 rounded-r-md"> 
+      <div class="flex flex-col items-center"> <!-- Numero do VOO -->
+        <h1 class="font-['inter] font-extralight text-base text-black">Número do Vôo</h1>
+        <h2 class="font-['inter'] text-3xl text-black"><%= value['flight_number'] %></h2>
+      </div>
+      <div class="flex flex-col items-center justify-center"> <!-- Horarios -->
+        <div class="flex flex-col items-center">
+          <p class="text-black font-['inter'] text-xs">Horário de saída</p>
+          <span class="text-black font-['inter'] text-xl">
+            <% horadecolagem = Time.parse value['departure_datetime_utc'] %>  
+            <%= horadecolagem.strftime("%I:%M%p") %>
+          </span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <p class="text-black font-['inter'] text-xs" >Horário de chegada</p>
+          <span class="text-black font-['inter'] text-xl">
+            <% horaaterrisagem = Time.parse value['arrival_datetime_utc'] %>  
+            <%= horaaterrisagem.strftime("%I:%M%p") %>
+          </span>
+        </div>
+
+        <div>
+          <p class="text-black font-['inter'] text-xs">Tempo de viagem:
+          <span>
+            <% tempoviagem = Time.parse value['duration_hours'] %>  
+            <%= tempoviagem.strftime("%Ih %Mm") %>
+          </span></p>
+        </div>
+
+      </div>
+      <div class="flex flex-col items-center"> <!-- Valor -->
+        <h1 class="text-black font-['inter'] text-base font-extralight">Valor</h1>
+        <h2 class="text-black font-['inter'] text-xl">$ <%=value['regular_fare']%></h2>
+        <h3 class="text-black font-['inter'] font-extralight text-xs">Moeda: <span class="text-black font-['inter'] text-xs"><%=value['currency']%></span></h3>
+      </div>
+    </div>
+  </div>
+</div>
